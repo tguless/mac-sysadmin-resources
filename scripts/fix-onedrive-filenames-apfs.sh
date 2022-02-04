@@ -182,7 +182,7 @@ function fixFileNames() {
 	[[ -d "/var/log/onedrive-fixlogs" ]] || mkdir "/var/log/onedrive-fixlogs"
 
 	fixlog="/var/log/onedrive-fixlogs/onedrive-fixlog-""$fixdate"
-	readonly fixlog
+	#readonly fixlog
 
 	echo "$(date +%m%d%y-%H%M)"": Log created at ""$fixlog" | tee "$fixlog"
 
@@ -215,9 +215,9 @@ function fixFileNames() {
 		killall OneDrive || true
 
 		beforefix_size=$(du -sk "$onedrivefolder" | awk -F '\t' '{print $1}')
-		readonly beforefix_size
+		#readonly beforefix_size
 		beforefix_filecount=$(find "$onedrivefolder" | wc -l | sed -e 's/^ *//')
-		readonly beforefix_filecount
+		#readonly beforefix_filecount
 
 		echo "$(date +%m%d%y-%H%M)"": The OneDrive folder is using ""$beforefix_size"" KB and the file count is ""$beforefix_filecount"" before fixing filenames." | tee -a "$fixlog"
 
@@ -243,7 +243,7 @@ function fixFileNames() {
 
 	echo "$(date +%m%d%y-%H%M)"": Fixing illegal characters in directory names" | tee -a "$fixlog"
 	fixchars="$(mktemp)"
-	readonly fixchars
+	#readonly fixchars
 	find "${onedrivefolder}" -type d -name '*[\\:*?"<>|]*' -print >"$fixchars"
 	fix_names
 
