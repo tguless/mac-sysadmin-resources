@@ -249,7 +249,7 @@ function fixFileNames() {
 
 	echo "$(date +%m%d%y-%H%M)"": Fixing trailing characters in directory names" | tee -a "$fixlog"
 	fixtrail="$(mktemp)"
-	readonly fixtrail
+	#readonly fixtrail
 	find "${onedrivefolder}" -type d -name "* " -print >"$fixtrail"
 	find "${onedrivefolder}" -type d -name "*." -print >>"$fixtrail"
 	fix_trailing_chars
