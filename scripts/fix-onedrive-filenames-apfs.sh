@@ -279,9 +279,9 @@ function fixFileNames() {
 	# Check OneDrive directory size and filecount after applying name fixes
 
 	afterfix_size=$(du -sk "$onedrivefolder" | awk -F '\t' '{print $1}')
-	readonly afterfix_size
+	#readonly afterfix_size
 	afterfix_filecount=$(find "$onedrivefolder" | wc -l | sed -e 's/^ *//')
-	readonly afterfix_filecount
+	#readonly afterfix_filecount
 
 	echo "$(date +%m%d%y-%H%M)"": The OneDrive folder is using ""$afterfix_size"" KB and the file count is ""$afterfix_filecount"" after fixing filenames. Restarting OneDrive." | tee -a "$fixlog"
 
