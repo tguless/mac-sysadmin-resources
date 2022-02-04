@@ -256,7 +256,7 @@ function fixFileNames() {
 
 	echo "$(date +%m%d%y-%H%M)"": Fixing leading spaces in directory names" | tee -a "$fixlog"
 	fixlead="$(mktemp)"
-	readonly fixlead
+	#readonly fixlead
 	find "${onedrivefolder}" -type d -name " *" -print >"$fixlead"
 	fix_leading_spaces
 
