@@ -160,7 +160,7 @@ fix_names() {
 	done
 }
 
-function main() {
+function fixFileNames() {
 
 	# Get the user
 
@@ -168,7 +168,10 @@ function main() {
 
 	# Set OneDrive folder name (specify onedrive folder name here)
 
-	local -r onedrivefolder="/Users/""$loggedinuser""/OneDrive"
+	#local -r onedrivefolder="/Users/""$loggedinuser""/OneDrive"
+	#local -r onedrivefolder="/Users/""$loggedinuser""/OneDrive"
+	
+	local -r onedrivefolder="$1"
 
 	# Get date
 
@@ -179,7 +182,7 @@ function main() {
 	[[ -d "/var/log/onedrive-fixlogs" ]] || mkdir "/var/log/onedrive-fixlogs"
 
 	fixlog="/var/log/onedrive-fixlogs/onedrive-fixlog-""$fixdate"
-	readonly fixlog
+	#readonly fixlog
 
 	echo "$(date +%m%d%y-%H%M)"": Log created at ""$fixlog" | tee "$fixlog"
 
@@ -196,7 +199,7 @@ function main() {
 
 		echo "$(date +%m%d%y-%H%M)"": File system not supported, aborting." | tee -a "$fixlog"
 
-		/usr/local/jamf/bin/jamf displayMessage -message "The file system on this Mac is not supported, please upgrade to macOS High Sierra or more recent."
+		echo "The file system on this Mac is not supported, please upgrade to macOS High Sierra or more recent."
 
 		exit 0
 
@@ -212,9 +215,9 @@ function main() {
 		killall OneDrive || true
 
 		beforefix_size=$(du -sk "$onedrivefolder" | awk -F '\t' '{print $1}')
-		readonly beforefix_size
+		#readonly beforefix_size
 		beforefix_filecount=$(find "$onedrivefolder" | wc -l | sed -e 's/^ *//')
-		readonly beforefix_filecount
+		#readonly beforefix_filecount
 
 		echo "$(date +%m%d%y-%H%M)"": The OneDrive folder is using ""$beforefix_size"" KB and the file count is ""$beforefix_filecount"" before fixing filenames." | tee -a "$fixlog"
 
@@ -231,7 +234,7 @@ function main() {
 
 		echo "$(date +%m%d%y-%H%M)"": OneDrive directory not present, aborting." | tee -a "$fixlog"
 
-		/usr/local/jamf/bin/jamf displayMessage -message "Cannot find the OneDrive folder. Ask IT to help st up OneDrive, or change the name of the folder"
+		echo "Cannot find the OneDrive folder. Ask IT to help st up OneDrive, or change the name of the folder"
 		exit 0
 
 	fi
@@ -240,20 +243,20 @@ function main() {
 
 	echo "$(date +%m%d%y-%H%M)"": Fixing illegal characters in directory names" | tee -a "$fixlog"
 	fixchars="$(mktemp)"
-	readonly fixchars
+	#readonly fixchars
 	find "${onedrivefolder}" -type d -name '*[\\:*?"<>|]*' -print >"$fixchars"
 	fix_names
 
 	echo "$(date +%m%d%y-%H%M)"": Fixing trailing characters in directory names" | tee -a "$fixlog"
 	fixtrail="$(mktemp)"
-	readonly fixtrail
+	#readonly fixtrail
 	find "${onedrivefolder}" -type d -name "* " -print >"$fixtrail"
 	find "${onedrivefolder}" -type d -name "*." -print >>"$fixtrail"
 	fix_trailing_chars
 
 	echo "$(date +%m%d%y-%H%M)"": Fixing leading spaces in directory names" | tee -a "$fixlog"
 	fixlead="$(mktemp)"
-	readonly fixlead
+	#readonly fixlead
 	find "${onedrivefolder}" -type d -name " *" -print >"$fixlead"
 	fix_leading_spaces
 
@@ -276,22 +279,33 @@ function main() {
 	# Check OneDrive directory size and filecount after applying name fixes
 
 	afterfix_size=$(du -sk "$onedrivefolder" | awk -F '\t' '{print $1}')
-	readonly afterfix_size
+	#readonly afterfix_size
 	afterfix_filecount=$(find "$onedrivefolder" | wc -l | sed -e 's/^ *//')
-	readonly afterfix_filecount
+	#readonly afterfix_filecount
 
 	echo "$(date +%m%d%y-%H%M)"": The OneDrive folder is using ""$afterfix_size"" KB and the file count is ""$afterfix_filecount"" after fixing filenames. Restarting OneDrive." | tee -a "$fixlog"
 
 	if [[ "$beforefix_filecount" -eq "$afterfix_filecount" ]]; then
 
-		/usr/local/jamf/bin/jamf displayMessage -message "File names have been corrected. A backup has been placed in FF-Backup-$fixdate in your user folder. The backup will be replaced the next time you correct filenames. You may also delete it, should you need more space."
+		echo "File names have been corrected. A backup has been placed in FF-Backup-$fixdate in your user folder. The backup will be replaced the next time you correct filenames. You may also delete it, should you need more space."
 
 	else
 
-		/usr/local/jamf/bin/jamf displayMessage -message "Something went wrong. A backup has been placed in FF-Backup-$fixdate in your user folder. Ask IT to help restore the backup."
+		echo "Something went wrong. A backup has been placed in FF-Backup-$fixdate in your user folder. Ask IT to help restore the backup."
 
 	fi
 
+}
+
+function main() {
+
+	local -r loggedinuser="$(scutil <<<"show State:/Users/ConsoleUser" | awk '/Name :/ && ! /loginwindow/ { print $3 }')"
+	local -r documentsfolder="/Users/""$loggedinuser""/Documents"
+	local -r desktopfolder="/Users/""$loggedinuser""/Desktop"
+	
+	fixFileNames "$documentsfolder"
+	fixFileNames "$desktopfolder"
+	
 }
 
 main
