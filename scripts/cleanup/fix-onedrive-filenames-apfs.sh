@@ -179,9 +179,9 @@ function fixFileNames() {
 
 	# Creating log
 
-	[[ -d "~/onedrive-fixlogs" ]] || mkdir "~/onedrive-fixlogs"
+	[[ -d ~/onedrive-fixlogs ]] || mkdir ~/onedrive-fixlogs
 
-	fixlog="~/onedrive-fixlogs/onedrive-fixlog-""$fixdate"
+	fixlog=~/onedrive-fixlogs/onedrive-fixlog-$fixdate
 	#readonly fixlog
 
 	echo "$(date +%m%d%y-%H%M)"": Log created at ""$fixlog" | tee "$fixlog"
@@ -221,14 +221,14 @@ function fixFileNames() {
 
 		echo "$(date +%m%d%y-%H%M)"": The OneDrive folder is using ""$beforefix_size"" KB and the file count is ""$beforefix_filecount"" before fixing filenames." | tee -a "$fixlog"
 
-		rm -drf "/Users/""$loggedinuser""/FF-Backup-"??????"-"????
-		mkdir -p "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex"
-		chown "$loggedinuser":staff "/Users/""$loggedinuser""/FF-Backup-""$fixdate"
-		chown "$loggedinuser":staff "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex"
-		touch "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex/.metadata_never_index"
-		cp -cpR "$onedrivefolder" "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex"
+		#rm -drf "/Users/""$loggedinuser""/FF-Backup-"??????"-"????
+		#mkdir -p "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex"
+		#chown "$loggedinuser":staff "/Users/""$loggedinuser""/FF-Backup-""$fixdate"
+		#chown "$loggedinuser":staff "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex"
+		#touch "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex/.metadata_never_index"
+		#cp -cpR "$onedrivefolder" "/Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex"
 
-		echo "$(date +%m%d%y-%H%M)"": APFS clonefile backup created at /Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex." | tee -a "$fixlog"
+		#echo "$(date +%m%d%y-%H%M)"": APFS clonefile backup created at /Users/""$loggedinuser""/FF-Backup-""$fixdate""/""$fixdate"".noindex." | tee -a "$fixlog"
 
 	else
 
