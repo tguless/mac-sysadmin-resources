@@ -11,7 +11,7 @@ function migrateOneDrive() {
 
    curl -o fix-onedrive-filenames-apfs.sh https://raw.githubusercontent.com/tguless/mac-sysadmin-resources/master/scripts/cleanup/fix-onedrive-filenames-apfs.sh
    chmod u+x ./fix-onedrive-filenames-apfs.sh
-   sudo ./fix-onedrive-filenames-apfs.sh
+   ./fix-onedrive-filenames-apfs.sh
 
    cd "/Users/$loggedinuser/Desktop/"
    find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -maxdepth 1 -type d -exec mkdir -p "$onedrivefolder/Laptop-Desktop/"{} \;

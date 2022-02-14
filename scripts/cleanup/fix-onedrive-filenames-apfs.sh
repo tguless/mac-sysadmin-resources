@@ -179,9 +179,9 @@ function fixFileNames() {
 
 	# Creating log
 
-	[[ -d "/var/log/onedrive-fixlogs" ]] || mkdir "/var/log/onedrive-fixlogs"
+	[[ -d "~/onedrive-fixlogs" ]] || mkdir "~/onedrive-fixlogs"
 
-	fixlog="/var/log/onedrive-fixlogs/onedrive-fixlog-""$fixdate"
+	fixlog="~/onedrive-fixlogs/onedrive-fixlog-""$fixdate"
 	#readonly fixlog
 
 	echo "$(date +%m%d%y-%H%M)"": Log created at ""$fixlog" | tee "$fixlog"
