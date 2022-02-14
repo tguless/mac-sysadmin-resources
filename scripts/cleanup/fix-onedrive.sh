@@ -14,13 +14,13 @@ function migrateOneDrive() {
    ./fix-onedrive-filenames-apfs.sh
 
    cd "/Users/$loggedinuser/Desktop/"
-   find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -maxdepth 1 -type d -exec mkdir -p "$onedrivefolder/Laptop-Desktop/"{} \;
-   find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -maxdepth 1 -type f -exec mv {} "$onedrivefolder/Laptop-Desktop/"{} \;
+   find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -type d -exec mkdir -p "$onedrivefolder/Laptop-Desktop/"{} \;
+   find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -type f -exec mv {} "$onedrivefolder/Laptop-Desktop/"{} \;
    find ./ -depth -type d -empty -exec rmdir {} \;
 
    cd "/Users/$loggedinuser/Documents/"
-   find ./*  -not -path "/Users/$loggedinuser/Documents/"Onedrive  -maxdepth 1 -type d -exec mkdir -p "$onedrivefolder/Laptop-Documents/"{} \;
-   find ./*  -not -path "/Users/$loggedinuser/Documents/"Onedrive  -maxdepth 1 -type f -exec mv {} "$onedrivefolder/Laptop-Documents/"{} \;
+   find ./*  -not -path "/Users/$loggedinuser/Documents/"Onedrive -type d -exec mkdir -p "$onedrivefolder/Laptop-Documents/"{} \;
+   find ./*  -not -path "/Users/$loggedinuser/Documents/"Onedrive -type f -exec mv {} "$onedrivefolder/Laptop-Documents/"{} \;
    find ./ -depth -type d -empty -exec rmdir {} \;
 
 
