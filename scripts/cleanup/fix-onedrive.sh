@@ -35,8 +35,8 @@ function migrateOneDrive() {
    find ./ -depth -type d -empty -exec rmdir {} \;
 
 
-   ln -sfn "$onedrivefolder/Laptop-Documents/" /Users/$loggedinuser/Documents/Onedrive
-   ln -sfn "$onedrivefolder/Laptop-Desktop/" /Users/$loggedinuser/Desktop/Onedrive 
+   ln -sfn "$onedrivefolder/Laptop-Documents-${today}/" /Users/$loggedinuser/Documents/Onedrive-${today}
+   ln -sfn "$onedrivefolder/Laptop-Desktop-${today}/" /Users/$loggedinuser/Desktop/Onedrive-${today}
 }
 
 migrateOneDrive
