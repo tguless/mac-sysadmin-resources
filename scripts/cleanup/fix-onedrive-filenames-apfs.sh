@@ -92,7 +92,7 @@ fix_trailing_chars() {
 		line="$(sed -n "${counter}"p "$fixtrail")"
 		name="$(basename "$line")"
 		path="$(dirname "$line")"
-		fixedname="$(echo "$name" | tr '.' '-' | awk '{sub(/[ \t]+$/, "")};1')"
+        fixedname="$(echo "$name" | awk '{sub(/[ \t]+$/, "")};1')"
 
 		if [[ -f "$path"'/'"$fixedname" ]] || [[ -d "$path"'/'"$fixedname" ]]; then
 
@@ -118,7 +118,7 @@ fix_leading_spaces() {
 		line="$(sed -n "${counter}"p "$fixlead")"
 		name="$(basename "$line")"
 		path="$(dirname "$line")"
-		fixedname="$(echo "$name" | sed -e 's/^[ \t]*//')"
+        fixedname="$(echo "$name" | sed -e 's/^[ \t]//')"
 
 		if [[ -f "$path"'/'"$fixedname" ]] || [[ -d "$path"'/'"$fixedname" ]]; then
 
