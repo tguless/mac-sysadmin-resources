@@ -298,16 +298,9 @@ function fixFileNames() {
 }
 
 function main() {
-
-	local -r loggedinuser="$(scutil <<<"show State:/Users/ConsoleUser" | awk '/Name :/ && ! /loginwindow/ { print $3 }')"
-	local -r documentsfolder="/Users/""$loggedinuser""/Documents"
-	local -r desktopfolder="/Users/""$loggedinuser""/Desktop"
-	
-	fixFileNames "$documentsfolder"
-	fixFileNames "$desktopfolder"
-	
+	fixFileNames "$1"
 }
 
-main
+main "$1"
 
 finish

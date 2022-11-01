@@ -13,6 +13,13 @@ function migrateOneDrive() {
    chmod u+x ./fix-onedrive-filenames-apfs.sh
    ./fix-onedrive-filenames-apfs.sh
 
+   local -r loggedinuser="$(scutil <<<"show State:/Users/ConsoleUser" | awk '/Name :/ && ! /loginwindow/ { print $3 }')"
+   local -r documentsfolder="/Users/""$loggedinuser""/Documents"
+   local -r desktopfolder="/Users/""$loggedinuser""/Desktop"
+
+   ./fix-onedrive-filenames-apfs.sh "$documentsfolder"
+   ./fix-onedrive-filenames-apfs.sh "$desktopfolder"
+
    cd "/Users/$loggedinuser/Desktop/"
    find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -type d -exec mkdir -p "$onedrivefolder/Laptop-Desktop/"{} \;
    find ./*  -not -path "/Users/$loggedinuser/Desktop/"Onedrive  -type f -exec mv {} "$onedrivefolder/Laptop-Desktop/"{} \;
